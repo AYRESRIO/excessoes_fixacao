@@ -1,5 +1,7 @@
 package model.entities;
 
+import model.exceptions.BusinessException;
+
 public class Account {
 	private Integer number;
 	private String holder;
@@ -45,36 +47,24 @@ public class Account {
 
 	public void deposit(Double amount) {
 
-		balance = balance + amount;
+		balance += amount;
 
 	}
 
 	public void withdraw(Double amount) {
-		if (amount > getWithdrawLimit()) {
-			amount = 0.00;
-		}
-
-		balance = balance - amount;
+		validateWithdraw(amount);
+		balance -= amount;
 
 	}
 
-	public String validateWithdraw(Double amount) {
+	private void validateWithdraw(Double amount) {
 
 		if (amount > getBalance()) {
-			return ("You don't have this amount.Verify your balance!");
+			throw new BusinessException("Insufficient balance.");
 		}
 		if (getWithdrawLimit() < amount) {
 
-			return ("Your withdraw exceeded your withdraw limit.");
+			throw new BusinessException("Withdraw limit exceeded.");
 		}
-		return null;
-		
-
 	}
-
-	@Override
-	public String toString() {
-		return "New balance: " + String.format("R$ %.2f", balance);
-	}
-
 }
