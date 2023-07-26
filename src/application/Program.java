@@ -26,27 +26,13 @@ public class Program {
 		System.out.println();
 		System.out.print("Enter amount for withdraw: ");
 		double amount = sc.nextDouble();
-		if (amount > account.getBalance()) {
-			System.out.println("You don't have this amount.Verify your balance!");
-			amount = 0.00;
+		String error = account.validateWithdraw(amount);
+		if (error != null) {
+			System.out.println(error);
 		} else {
-			while (amount > account.getWithdrawLimit()) {
-				System.out.println("YOUR WITHDRAW LIMIT IS: R$ " + String.format("%.2f", account.getWithdrawLimit()));
-				System.out.print("Do you want try again?(y/n)");
-				char option = sc.next().charAt(0);
-				if (option == 'y') {
-					System.out.print("Enter amount for withdraw: ");
-					amount = sc.nextDouble();
-				} else {
-					amount = 0.00;
-				}
-
-			}
-
+			account.withdraw(amount);
+			System.out.println(account.toString());
 		}
-		account.withdraw(amount);
-
-		System.out.println(account.toString());
 
 		sc.close();
 

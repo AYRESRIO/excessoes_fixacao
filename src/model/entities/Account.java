@@ -50,11 +50,24 @@ public class Account {
 	}
 
 	public void withdraw(Double amount) {
-		if(amount>getWithdrawLimit()) {
+		if (amount > getWithdrawLimit()) {
 			amount = 0.00;
 		}
 
 		balance = balance - amount;
+
+	}
+
+	public String validateWithdraw(Double amount) {
+
+		if (amount > getBalance()) {
+			return ("You don't have this amount.Verify your balance!");
+		}
+		if (getWithdrawLimit() < amount) {
+
+			return ("Your withdraw exceeded your withdraw limit.");
+		}
+		return null;
 		
 
 	}
